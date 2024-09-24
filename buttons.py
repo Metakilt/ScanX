@@ -86,63 +86,62 @@ def access_bucket(access_key, access_id, bucket_name, bucket_obj, region):
     return data
 
 
-data = access_bucket(aws_access.ACCESS_ID, aws_access.ACCESS_KEY, aws_access.BUCKET_NAME, aws_access.BUCKET_OBJ, aws_access.REGION)
-df = pd.read_csv(data)
-basket = Shopping(df)
+if __name__ == '__main__':
+    data = access_bucket(aws_access.ACCESS_ID, aws_access.ACCESS_KEY, aws_access.BUCKET_NAME, aws_access.BUCKET_OBJ, aws_access.REGION)
+    df = pd.read_csv(data)
+    basket = Shopping(df)
 
+    st.markdown(
+        """
+        <style>
+        .stButton>button {
+            padding: 10px 15px;
+            font-size: 28px;
+            margin: 1px 1px;
+            cursor: pointer;
+        }
 
-st.markdown(
-    """
-    <style>
-    .stButton>button {
-        padding: 10px 15px;
-        font-size: 28px;
-        margin: 1px 1px;
-        cursor: pointer;
-    }
+        .stButton {
+            display: inline-block;
+            width: 100%;
+        }
 
-    .stButton {
-        display: inline-block;
-        width: 100%;
-    }
+        .stButton .fullWidth {
+            width: 100%;
+        }
+        </style>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    st.title("Customer Actions")
 
-    .stButton .fullWidth {
-        width: 100%;
-    }
-    </style>
-    """, 
-    unsafe_allow_html=True
-)
+    with st.container():
+        st.write("What do you want to do?")
+        col1, col2, col3, col4, col5 = st.columns(5)
 
+        with col1:
+            if st.button("SCAN ITEM"):
+                st.session_state['action'] = "Scanned one item..."
+                basket.scan_1()
+        with col2:
+            if st.button("SCAN ITEM++"):
+                st.session_state['action'] = "Scanned an item with multiple quantities..."
+                basket.scan_2()
+        with col3:
+            if st.button("REMOVE ITEM"):
+                st.session_state['action'] = "Removed an item..."
+                basket.remove()
+        with col4:
+            if st.button("CLEAR CART"):
+                st.session_state['action'] = "Cleared cart..."
+                basket.clear()
 
-st.title("Customer Actions")
+    # current action
+    if 'action' in st.session_state:
+        st.write(f"Status: {st.session_state['action']}")
+    else:
+        st.write("No action taken yet.")
 
-with st.container():
-    st.write("What do you want to do?")
-    col1, col2, col3, col4, col5 = st.columns(5)
-
-    with col1:
-        if st.button("SCAN ITEM"):
-            st.session_state['action'] = "Scanned one item..."
-            basket.scan_1()
-    with col2:
-        if st.button("SCAN ITEM++"):
-            st.session_state['action'] = "Scanned an item with multiple quantities..."
-            basket.scan_2()
-    with col3:
-        if st.button("REMOVE ITEM"):
-            st.session_state['action'] = "Removed an item..."
-            basket.remove()
-    with col4:
-        if st.button("CLEAR CART"):
-            st.session_state['action'] = "Cleared cart..."
-            basket.clear()
-
-# current action
-if 'action' in st.session_state:
-    st.write(f"Status: {st.session_state['action']}")
-else:
-    st.write("No action taken yet.")
-
-basket.format()
-st.write(f"Shopping Total: ${basket.total()}")
+    basket.format()
+    st.write(f"Shopping Total: ${basket.total()}")
