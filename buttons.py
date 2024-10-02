@@ -54,23 +54,56 @@ class Shopping:
         return round(sum(price[2] for price in st.session_state.cart.values()), 2)
 
     def format(self):
-        """result = ""
-        if len(self.cart) != 0:
-            for item, value in self.cart.items():
-                quantity = value[0]
-                price = value[1]
-                item_total = value[2]
-                result += f"{item:<10} Quantity: {quantity:<10} Price: {price:<10} Total: {item_total}\n"
-            return result
-        else:
-            result+='Nothing in cart.'
-            return result"""
-
         if st.session_state.cart:
+            items = []
             for item, details in st.session_state.cart.items():
-                st.write(
-                    f"{item}, Quantity: {details[0]}, Price: {details[1]}, Total: {details[2]}"
+                items.append(
+                    {
+                        "Item": item,
+                        "Quantity": details[0],
+                        "Price": details[1],
+                        "Total": details[0] * details[1],
+                    }
                 )
+            cart_display = pd.DataFrame(items)
+
+            # CSS for the table
+            css = """
+        <style>
+            .table {
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 1em;
+                font-family: Arial, sans-serif;
+                min-width: 400px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            }
+            .table th, .table td {
+                padding: 12px 15px;
+                text-align: center;
+                border-bottom: 1px solid #dddddd;
+            }
+            .table th {
+                background-color: #ffd500;
+                color: white;
+                text-align: center;
+            }
+            .table tr:nth-child(even) {
+                background-color: #f2f2f2;
+                text-align:center;
+            }
+            .table tr:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+    """.strip()
+            st.markdown(css, unsafe_allow_html=True)
+            html_table = cart_display.to_html(classes="table", index=False)
+            st.markdown(html_table, unsafe_allow_html=True)
+            # st.write(
+            #     cart_display.to_html(classes="table", index=False),
+            #     unsafe_allow_html=True,
+            # )
         else:
             st.write("Cart is empty.")
 
@@ -81,6 +114,7 @@ def access_bucket(bucket_name, bucket_obj):
     s3 = session.client("s3")
 
     response = s3.get_object(Bucket=bucket_name, Key=bucket_obj)
+
     response_data = response["Body"].read()
 
     data = BytesIO(response_data)
@@ -147,4 +181,4 @@ if __name__ == "__main__":
         st.write("No action taken yet.")
 
     basket.format()
-    st.write(f"Shopping Total: ${basket.total()}")
+    st.write(f"Shmpping Total: ${basket.total()}")
