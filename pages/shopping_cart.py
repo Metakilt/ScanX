@@ -1,25 +1,39 @@
 import streamlit as st
 import pandas as pd
-import boto3
+from buttons import Shopping, access_bucket  # Importing from buttons.py
 
-with st.container():
 
-    def shopping_cart():
-        st.title("Shopping cart items")
-        # Change to s3 bucket link
-        s3_csv = "Grocery_Dataset.csv"
+def shopping_cart():
+    st.title("Shopping Cart Items")
 
-        # S3 bucket remove comments
-        # bucket_name = "itpm-products"
-        # file_key = "Grocery_Dataset.csv"
-        # make function to read csv from bucket
+    # Access data from the S3 bucket
+    data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
+    df = pd.read_csv(data)
 
-        if s3_csv is not None:
-            df = pd.read_csv(s3_csv)
-            st.dataframe(df)
+    # Display the shopping cart
 
-            if "Price" in df.columns:
-                total_price = df["Price"].sum()
-                st.write(f"Total Price: ${total_price:.2f}")
-            else:
-                st.write("No price column found in the dataset.")
+    basket = Shopping(df)
+
+    # Buttons from buttons.py
+    with st.container():
+        col1, col2, col3, col4 = st.columns(4)
+
+        with col1:
+            if st.button("SCAN ITEM"):
+                basket.scan_1()
+                st.write("Item scanned.")
+
+        with col2:
+            if st.button("REMOVE ITEM"):
+                basket.remove()
+                st.write("Item removed.")
+
+        with col3:
+            if st.button("CLEAR CART"):
+                basket.clear()
+                st.write("Cart cleared.")
+
+        with col4:
+            st.write(f"Shopping Total: ${basket.total()}")
+
+    basket.format()
