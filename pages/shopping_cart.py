@@ -10,13 +10,12 @@ def shopping_cart():
     data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
     df = pd.read_csv(data)
 
-    # Display the shopping cart
-
+    # Initialize the Shopping basket from buttons
     basket = Shopping(df)
 
     # Buttons from buttons.py
     with st.container():
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3 = st.columns(3)
 
         with col1:
             if st.button("SCAN ITEM"):
@@ -24,16 +23,23 @@ def shopping_cart():
                 st.write("Item scanned.")
 
         with col2:
+            if st.button("SCAN ITEM+"):
+                basket.scan_2()
+                st.write("Multiple quantities scanned.")
+
+        with col3:
             if st.button("REMOVE ITEM"):
                 basket.remove()
                 st.write("Item removed.")
 
-        with col3:
-            if st.button("CLEAR CART"):
-                basket.clear()
-                st.write("Cart cleared.")
-
-        with col4:
-            st.write(f"Shopping Total: ${basket.total()}")
-
+        # Added separately because 4 columns destroys the css might fix later
+        if st.button("Clear Cart"):
+            basket.clear()
+    # call table
     basket.format()
+
+    # Pay now button not working with navbar package, link straight with switchpage instead
+    # Use markdown to center div with flex html. Check if button onclick can work in streamlit
+    with st.container():
+        if st.button("PAY NOW"):
+            st.session_state["current_page"] = "Pay Now"
