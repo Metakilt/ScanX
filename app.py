@@ -13,10 +13,10 @@ import pages as pg
 import boto3
 
 # Set the page configuration for Streamlit
-st.set_page_config(initial_sidebar_state="collapsed")
+st.set_page_config(page_title="ScanX", initial_sidebar_state="collapsed")
 
 # Define the navigation pages
-pages = ["Home", "Grocery Items", "Shopping Cart", "Contact", "About"]
+pages = ["Home", "Cart", "Actions", "Contact", "About"]
 
 # Include parent_Dir to make the logo appear on the navbar
 parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -24,11 +24,14 @@ logo_path = os.path.join(
     parent_dir, "shopping-cart-outline-svgrepo-com.svg"
 )  # Ensure this file exists
 
-# Styling for navbar from creator, change if needed
+# Styling for navbar
 styles = {
     "nav": {
-        "background-color": "royalblue",
+        "background-color": "#1330BF",
         "justify-content": "left",
+        "font-weight": "normal",
+        "font-family": "Arial, Helvetica, sans-serif",
+        "color": "white",
     },
     "img": {
         "padding-right": "14px",
@@ -38,13 +41,12 @@ styles = {
         "padding": "14px",
     },
     "active": {
-        "background-color": "#ffff",
-        "color": "var(--text-color)",
-        "font-weight": "normal",
+        "color": "white",
+        "font-weight": "bold",
         "padding": "14px",
     },
     "hover": {
-        "background-color": "rgba(120, 120, 120, 0.35)",
+        "background-color": "#0F2698",
     },
 }
 
@@ -52,15 +54,15 @@ page = st_navbar(pages, logo_path=logo_path, styles=styles)
 
 if page == "Home":
     pg.home()
-elif page == "Grocery Items":
-    pg.grocery_items()
-elif page == "Shopping Cart":
-    pg.shopping_cart()
+elif page == "Cart":
+    pg.cart()
+elif page == "Actions":
+    pg.actions()
 elif page == "Contact":
     pg.contact()
 elif page == "About":
     pg.about()
-# Placed in app.py to consistently have footer
+
 footer = """
     <div style="
         position: fixed; 
