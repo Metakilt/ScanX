@@ -5,7 +5,7 @@ from buttons import Shopping, access_bucket
 
 def cart():
 
-    st.title("Cart")
+    #st.title("Cart")
     #data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
     data = 'Grocery_Dataset.csv' # local test
     df = pd.read_csv(data)
