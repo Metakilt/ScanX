@@ -14,30 +14,35 @@ class Shopping:
 
     def scan_1(self):
         item_index = random.choice(self.data.index)
-        item_name = self.data.iloc[item_index]['Title']
-        item_price = self.data.iloc[item_index]['Price']
+        item_name = self.data.iloc[item_index]["Title"]
+        item_price = self.data.iloc[item_index]["Price"]
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += 1
             st.session_state.cart[item_index][3] += item_price
         else:
-            st.session_state.cart[item_index] = [item_name, 1, item_price, item_price*1]
+            st.session_state.cart[item_index] = [
+                item_name,
+                1,
+                item_price,
+                item_price * 1,
+            ]
 
     def scan_2(self):
         item_index = random.choice(self.data.index)
-        item_name = self.data.iloc[item_index]['Title']
-        item_price = self.data.iloc[item_index]['Price']
+        item_name = self.data.iloc[item_index]["Title"]
+        item_price = self.data.iloc[item_index]["Price"]
         randomiser = random.randint(2, 5)
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += randomiser
-            st.session_state.cart[item_index][3] += item_price*randomiser
+            st.session_state.cart[item_index][3] += item_price * randomiser
         else:
             st.session_state.cart[item_index] = [
-                item_name, 
-                1*randomiser, 
-                item_price, 
-                item_price*randomiser
+                item_name,
+                1 * randomiser,
+                item_price,
+                item_price * randomiser,
             ]
 
     def remove(self):
@@ -107,14 +112,14 @@ class Shopping:
 
     def format_2(self):
         if st.session_state.cart:
-            cart_html = ""      # dynamic html placeholder
+            cart_html = ""  # dynamic html placeholder
             running_total = 0
             # for each item create div elements to show in cart
             for item, details in st.session_state.cart.items():
-                name = item
-                quantity = details[0]
-                price = details[1]
-                total = quantity*price
+                name = details[0]
+                quantity = details[1]
+                price = details[2]
+                total = quantity * price
                 running_total += price
 
                 cart_html += f"""<div class="cart-item">
@@ -124,9 +129,10 @@ class Shopping:
                 </div>
                 <div class="item-total">${total}</div>
                 </div>"""
-            
+
             # mobile screen checkout
-            components.html(f"""
+            components.html(
+                f"""
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -223,9 +229,13 @@ class Shopping:
                 </div>
             </body>
             </html>
-            """, height=600, scrolling=True)
+            """,
+                height=600,
+                scrolling=True,
+            )
         else:
             st.write("Cart is empty.")
+
 
 # pull data from s3
 def access_bucket(bucket_name, bucket_obj):
@@ -240,10 +250,11 @@ def access_bucket(bucket_name, bucket_obj):
     data = BytesIO(response_data)
     return data
 
+
 # test run (following section only used when testing buttons.py alone)
 if __name__ == "__main__":
-    #data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
-    data = 'Grocery_Dataset.csv' # test local
+    # data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
+    data = "Grocery_Dataset.csv"  # test local
     df = pd.read_csv(data)
     basket = Shopping(df)
 
