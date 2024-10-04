@@ -7,16 +7,14 @@
 
 import os
 import streamlit as st
-import pandas as pd
 from streamlit_navigation_bar import st_navbar
 import pages as pg
-import boto3
 
 # Set the page configuration for Streamlit
 st.set_page_config(page_title="ScanX", initial_sidebar_state="collapsed")
 
 # Define the navigation pages
-pages = ["Home", "Cart", "Actions", "Contact", "About"]
+pages = ["Home", "Cart", "Actions"]
 
 # Include parent_Dir to make the logo appear on the navbar
 parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -58,10 +56,6 @@ elif page == "Cart":
     pg.cart()
 elif page == "Actions":
     pg.actions()
-elif page == "Contact":
-    pg.contact()
-elif page == "About":
-    pg.about()
 
 footer = """
     <div style="
@@ -84,4 +78,4 @@ footer = """
     </div>
 """
 # Render the footer in Streamlit
-st.markdown(footer, unsafe_allow_html=True)
+#t.markdown(footer, unsafe_allow_html=True)
