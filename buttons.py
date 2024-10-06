@@ -9,10 +9,12 @@ class Shopping:
         if "cart" not in st.session_state:
             st.session_state.cart = {}
 
+    # added img_url
     def scan_muffin(self):
         item_index = 0
         item_name = self.data.iloc[item_index]["Title"]
         item_price = self.data.iloc[item_index]["Price"]
+        img_url = self.data.iloc[item_index]["img_url"]
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += 1
@@ -23,12 +25,14 @@ class Shopping:
                 1,
                 item_price,
                 item_price * 1,
+                img_url,
             ]
-    
+
     def scan_water(self):
         item_index = 1
         item_name = self.data.iloc[item_index]["Title"]
         item_price = self.data.iloc[item_index]["Price"]
+        img_url = self.data.iloc[item_index]["img_url"]
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += 1
@@ -39,12 +43,14 @@ class Shopping:
                 1,
                 item_price,
                 item_price * 1,
+                img_url,
             ]
 
     def scan_protein_powder(self):
         item_index = 2
         item_name = self.data.iloc[item_index]["Title"]
         item_price = self.data.iloc[item_index]["Price"]
+        img_url = self.data.iloc[item_index]["img_url"]
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += 1
@@ -55,12 +61,14 @@ class Shopping:
                 1,
                 item_price,
                 item_price * 1,
+                img_url,
             ]
-    
+
     def scan_coffee(self):
         item_index = 3
         item_name = self.data.iloc[item_index]["Title"]
         item_price = self.data.iloc[item_index]["Price"]
+        img_url = self.data.iloc[item_index]["img_url"]
 
         if item_index in st.session_state.cart:
             st.session_state.cart[item_index][1] += 1
@@ -71,8 +79,9 @@ class Shopping:
                 1,
                 item_price,
                 item_price * 1,
+                img_url,
             ]
-    
+
     def remove_muffin(self):
         item_index = 0
         item_price = self.data.iloc[item_index]["Price"]
@@ -84,7 +93,7 @@ class Shopping:
                 del st.session_state.cart[item_index]
         except:
             pass
-    
+
     def remove_water(self):
         item_index = 1
         item_price = self.data.iloc[item_index]["Price"]
@@ -130,7 +139,6 @@ class Shopping:
     def total(self):
         return round(sum(price[3] for price in st.session_state.cart.values()), 2)
 
-
     def format(self):
         if st.session_state.cart:
             cart_html = ""  # dynamic html placeholder
@@ -142,16 +150,18 @@ class Shopping:
                 quantity = details[1]
                 price = details[2]
                 total = quantity * price
+                img_url = details[4]
                 running_total += price
 
                 cart_html += f"""<div class="cart-item">
                 <div class="item-details">
                     <div class="item-name">{name}</div>
                     <div class="item-quantity">Quantity: {quantity}</div>
+                    <img src="{img_url}" alt="{name}" style="width:50px;height:50px;" />
                 </div>
                 <div class="item-total">${total:.2f}</div>
                 </div>"""
-            
+
             # mobile screen checkout
             components.html(
                 f"""
@@ -254,16 +264,17 @@ class Shopping:
                 </div>
             </body>
             </html>
-            """, 
-            height=800, 
-            scrolling=False)
+            """,
+                height=800,
+                scrolling=False,
+            )
         else:
             cart_html = f"""<div class="cart-item">
                 <div class="item-details">
                     <div class="item-name">You do not have any items in cart.</div>
                 </div>
                 </div>"""
-            
+
             components.html(
                 f"""
             <!DOCTYPE html>
@@ -355,9 +366,10 @@ class Shopping:
                 </div>
             </body>
             </html>
-            """, 
-            height=800, 
-            scrolling=False)
+            """,
+                height=800,
+                scrolling=False,
+            )
 
 
 # test run (following section only used when testing buttons.py alone)
@@ -405,9 +417,7 @@ if __name__ == "__main__":
 
         with col2:
             if st.button("2"):
-                st.session_state["action"] = (
-                    "Scanned bottled water."
-                )
+                st.session_state["action"] = "Scanned bottled water."
                 basket.scan_water()
             if st.button("6"):
                 st.session_state["action"] = "Removed bottled water."
