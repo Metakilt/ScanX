@@ -45,7 +45,7 @@ styles = {
     },
 }
 # Define the navigation pages
-pages = ["Home", "Scan QR", "Checkout"]
+pages = ["Home", "Scan QR", "Checkout", "Pay Now"]
 page = st_navbar(pages, logo_path=logo_path, styles=styles)
 
 if page == "Home":
@@ -54,6 +54,8 @@ elif page == "Scan QR":
     pg.pay_pole()
 elif page == "Checkout":
     pg.actions()
+elif page == "Pay Now":
+    pg.pay_screen()
 
 footer = """
     <div style="
@@ -76,4 +78,4 @@ footer = """
     </div>
 """
 # Render the footer in Streamlit
-#t.markdown(footer, unsafe_allow_html=True)
+# t.markdown(footer, unsafe_allow_html=True)

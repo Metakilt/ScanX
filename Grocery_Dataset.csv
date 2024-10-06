@@ -1,5 +1,5 @@
-Sub Category,Price,Discount,Rating,Title,Currency,Feature,Product Description
-Bakery & Desserts,4.9,No Discount,Rated 4.7 out of 5 stars based on 1204 reviews,Woolworths Mini Double Choc Muffins 8 Pack,$,,
-Beverages & Water,1.25,No Discount,Rated 4.6 out of 5 stars based on 146 reviews,Nu Pure Still Spring Water 600ml,$,,
-Snacks,29.9,No Discount,No Reviews,28go Protein With Probiotics Powder Chocolate 350g,$,,
-Coffee,4.0,No Discount,No Reviews,Nescafe Sachets Caramel Latte 98% Sugar Free 10 Pack,$,,
+Sub Category,Price,Discount,Rating,Title,Currency,img_url,Product Description
+Bakery & Desserts,4.9,No Discount,Rated 4.7 out of 5 stars based on 1204 reviews,Woolworths Mini Double Choc Muffins 8 Pack,$,https://assets.woolworths.com.au/images/1005/883116.jpg?impolicy=wowsmkqiema&w=1200&h=1200,
+Beverages & Water,1.25,No Discount,Rated 4.6 out of 5 stars based on 146 reviews,Nu Pure Still Spring Water 600ml,$,https://cdn0.woolworths.media/content/wowproductimages/large/109915.jpg,
+Snacks,29.9,No Discount,No Reviews,28go Protein With Probiotics Powder Chocolate 350g,$,https://assets.woolworths.com.au/images/1005/390921.jpg?impolicy=wowsmkqiema&w=1200&h=1200,
+Coffee,4,No Discount,No Reviews,Nescafe Sachets Caramel Latte 98% Sugar Free 10 Pack,$,https://cdn0.woolworths.media/content/wowproductimages/large/115795.jpg,
