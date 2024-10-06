@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-import random
-import boto3
-from io import BytesIO
 import streamlit.components.v1 as components
 
 
@@ -132,58 +129,9 @@ class Shopping:
 
     def total(self):
         return round(sum(price[3] for price in st.session_state.cart.values()), 2)
-    
+
+
     def format(self):
-        if st.session_state.cart:
-            items = []
-            for item, details in st.session_state.cart.items():
-                items.append(
-                    {
-                        "Item": details[0],
-                        "Quantity": details[1],
-                        "Price": details[2],
-                        "Total": details[3],
-                    }
-                )
-            cart_display = pd.DataFrame(items)
-
-            # CSS for the table
-            css = """
-            <style>
-                .table {
-                    border-collapse: collapse;
-                    margin: 25px 0;
-                    font-size: 1em;
-                    font-family: Arial, sans-serif;
-                    min-width: 400px;
-                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-                }
-                .table th, .table td {
-                    padding: 12px 15px;
-                    text-align: center;
-                    border-bottom: 1px solid #dddddd;
-                }
-                .table th {
-                    background-color: #0F2698;
-                    color: white;
-                    text-align: center;
-                }
-                .table tr:nth-child(even) {
-                    text-align:center;
-                }
-            </style>
-            """.strip()
-            st.markdown(css, unsafe_allow_html=True)
-            html_table = cart_display.to_html(classes="table", index=False)
-            st.markdown(html_table, unsafe_allow_html=True)
-            # st.write(
-            #     cart_display.to_html(classes="table", index=False),
-            #     unsafe_allow_html=True,
-            # )
-        else:
-            st.write("Cart is empty.")
-
-    def format_2(self):
         if st.session_state.cart:
             cart_html = ""  # dynamic html placeholder
             running_total = 0
@@ -214,6 +162,9 @@ class Shopping:
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Checkout Page</title>
                 <style>
+                    head {{
+                        bottom: 300px;
+                    }}
                     title {{
                         font-size: 20px;
                         align-items: left;
@@ -282,8 +233,7 @@ class Shopping:
                         cursor: pointer;
                     }}
                     .checkout-button:hover{{
-                        background-color: #B8C0EB;
-                        color: #050E39;
+                        background-color: #0B1C72;
                     }}
                 </style>
             </head>
@@ -410,24 +360,9 @@ class Shopping:
             scrolling=False)
 
 
-# pull data from s3
-def access_bucket(bucket_name, bucket_obj):
-    session = boto3.Session()
-
-    s3 = session.client("s3")
-
-    response = s3.get_object(Bucket=bucket_name, Key=bucket_obj)
-
-    response_data = response["Body"].read()
-
-    data = BytesIO(response_data)
-    return data
-
-
 # test run (following section only used when testing buttons.py alone)
 if __name__ == "__main__":
-    # data = access_bucket(bucket_name="itpm-products", bucket_obj="Grocery_Dataset.csv")
-    data = "Grocery_Dataset.csv"  # test local
+    data = "Grocery_Dataset.csv"
     df = pd.read_csv(data)
     basket = Shopping(df)
 
@@ -439,6 +374,9 @@ if __name__ == "__main__":
             font-size: 28px;
             margin: 1px 1px;
             cursor: pointer;
+            background-color: #0f1117;
+            color: #282828;
+            border: 0px;
         }
 
         .stButton {
@@ -454,48 +392,45 @@ if __name__ == "__main__":
         unsafe_allow_html=True,
     )
 
-    st.title("Customer Actions")
-
     with st.container():
-        st.write("What do you want to do?")
-        col1, col2, col3, col4, col5 = st.columns([1,2,1,2,1], gap='small')
+        col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
-            if st.button("Scan Muffin"):
+            if st.button("1"):
                 st.session_state["action"] = "Scanned choc muffin."
                 basket.scan_muffin()
-            if st.button("Remove Muffin"):
+            if st.button("5"):
                 st.session_state["action"] = "Removed choc muffin."
                 basket.remove_muffin()
 
         with col2:
-            if st.button("Scan Water"):
+            if st.button("2"):
                 st.session_state["action"] = (
                     "Scanned bottled water."
                 )
                 basket.scan_water()
-            if st.button("Remove Water"):
+            if st.button("6"):
                 st.session_state["action"] = "Removed bottled water."
                 basket.remove_water()
 
         with col3:
-            if st.button("Scan Protein"):
+            if st.button("3"):
                 st.session_state["action"] = "Scanned protein powder."
                 basket.scan_protein_powder()
-            if st.button("Remove Protein"):
+            if st.button("7"):
                 st.session_state["action"] = "Removed protein powder."
                 basket.remove_protein_powder()
 
         with col4:
-            if st.button("Scan Coffee"):
+            if st.button("4"):
                 st.session_state["action"] = "Scanned coffee."
                 basket.scan_coffee()
-            if st.button("Remove Coffee"):
+            if st.button("8"):
                 st.session_state["action"] = "Removed coffee."
                 basket.remove_coffee()
 
         with col5:
-            if st.button("Clear Cart"):
+            if st.button("c"):
                 st.session_state["action"] = "Cleared cart..."
                 basket.clear()
 
@@ -506,4 +441,3 @@ if __name__ == "__main__":
         st.write("No action taken yet.")
 
     basket.format()
-    st.write(f"Shopping Total: ${basket.total()}")
