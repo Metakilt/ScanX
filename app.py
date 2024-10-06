@@ -13,9 +13,6 @@ import pages as pg
 # Set the page configuration for Streamlit
 st.set_page_config(page_title="ScanX", initial_sidebar_state="collapsed")
 
-# Define the navigation pages
-pages = ["Home", "Cart", "Actions"]
-
 # Include parent_Dir to make the logo appear on the navbar
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(
@@ -47,14 +44,15 @@ styles = {
         "background-color": "#0F2698",
     },
 }
-
+# Define the navigation pages
+pages = ["Home", "Scan QR", "Checkout"]
 page = st_navbar(pages, logo_path=logo_path, styles=styles)
 
 if page == "Home":
     pg.home()
-elif page == "Cart":
-    pg.cart()
-elif page == "Actions":
+elif page == "Scan QR":
+    pg.pay_pole()
+elif page == "Checkout":
     pg.actions()
 
 footer = """
