@@ -48,8 +48,13 @@ def pay_screen():
 
     st.markdown("### Payment Options")
 
-    if st.button(" ", key="paypal", help="Click to pay via Paypal"):
-        st.success("Paypal payment initiated.")
+    col1, col2 = st.columns(2, gap='small')
+    with col1:
+        if st.button("PayPal", key="paypal", help="Click to pay via Paypal"):
+            st.success("Paypal payment initiated.")
+    with col2:
+        if st.button("AfterPay", key="afterpay", help="Click to pay via AfterPay"):
+            st.success("AfterPay payment initiated.")
 
     st.markdown("#### Or Pay with Credit/Debit Card")
 

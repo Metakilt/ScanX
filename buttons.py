@@ -170,7 +170,7 @@ class Shopping:
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Checkout Page</title>
+                <title>Shopping List</title>
                 <style>
                     head {{
                         bottom: 300px;
@@ -220,7 +220,7 @@ class Shopping:
                         color: #333;
                     }}
                     .cart-item .item-quantity {{
-                        color: #999;
+                        color: #232B2B;
                         font-size: 0.9rem;
                     }}
                     .cart-summary {{
@@ -249,7 +249,7 @@ class Shopping:
             </head>
             <body>
                 <div class="mobile-container">
-                    <h3>Checkout</h3>
+                    <h3>Shopping List</h3>
 
                     <!-- Cart items inserted here -->
                     {cart_html}
@@ -282,7 +282,7 @@ class Shopping:
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Checkout Page</title>
+                <title>Shopping List</title>
                 <style>
                     title {{
                         font-size: 20px;
@@ -359,7 +359,7 @@ class Shopping:
             </head>
             <body>
                 <div class="mobile-container">
-                    <h3>Checkout</h3>
+                    <h3>Shopping List</h3>
 
                     <!-- Cart items inserted here -->
                     {cart_html}
