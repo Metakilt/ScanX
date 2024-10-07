@@ -10,7 +10,7 @@ def pay_pole():
                 max-width: 375px;
                 margin: auto;
                 padding: 20px;
-                background-color: #3E4045;
+                background-color: #f3f6f4;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 text-align: center;
@@ -23,12 +23,13 @@ def pay_pole():
             .instructions {{
                 margin-top: 10px;
                 font-size: 16px;
-                color: #eeeeee;
+                color: #232B2B;
             }}
 
             h2 {{
                 font-size: 40px;
                 text-align: center;
+                color: #232B2B;
             }}
         </style>
 
